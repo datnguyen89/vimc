@@ -5,6 +5,8 @@ import commonStore from './commonStore'
 // Request
 import {UserRequest} from '../requests'
 import axios from 'axios'
+import qs from 'querystring'
+
 
 class UserStore {
 
@@ -39,45 +41,34 @@ class UserStore {
                 })
         })
     }
-    // @action userLogin = (identifier, password, remember) => {
-    //   return new Promise((resolve, reject) => {
-    //     UserRequest.userLogin(identifier, password)
-    //       .then(response => {
-    //         // commonStore.setTheme(response.data.user.theme)
-    //         this.setToken(response.access_token, remember)
-    //         this.currentUser = {Username: identifier}
-    //         message.success(`Welcome, ${identifier}!`)
-    //         resolve(response)
-    //         console.log(response)
-    //       })
-    //       .catch(error => {
-    //         // message.error(error.response.data.message || "Đăng nhập thất bại")
-    //         console.log(error)
-    //         reject(error)
-    //       })
-    //   })
-    // }
+
     @action userLogin = (identifier, password, remember) => {
-        const token = Buffer.from(`${"vimc"}:${"03BaArGhaTpR$3vm%KC2BPV5J69$p@"}`, 'utf8').toString('base64');
+        const token = Buffer.from(`${'vimc'}:${'03BaArGhaTpR$3vm%KC2BPV5J69$p@'}`, 'utf8').toString('base64')
+        const requestBody = {
+            username: identifier,
+            password: password,
+            grant_type: 'password',
+            scope: 'openid'
+        }
         return new Promise((resolve, reject) => {
-            return axios({
+            axios({
                 method: 'post',
                 url: 'http://oauth.vimc-portal.corlogy.com/api/v1/oauth/token',
-                data: {
-                    username: identifier,
-                    password: password,
-                    grant_type: "password",
-                    scope: "openid",
-                },
+                data: qs.stringify(requestBody),
                 headers: {
+                    'Authorization': `Basic ${token}`,
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Basic ${token}`
                 },
+            }).then(response => {
+                console.log(response);
+                this.currentUser = {username: identifier, password: password,};
+                this.setToken(response.data.access_token,false);
+                resolve(response);
+                message.success("Welcome " + identifier) ;
+            }).catch(error => {
+                console.log(error)
+                reject(error)
             })
-                .then(res => {
-                    console.log(res);
-                    resolve(res)
-                })
         })
     }
     @action userLogout = () => {
