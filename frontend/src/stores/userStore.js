@@ -50,10 +50,11 @@ class UserStore {
             grant_type: 'password',
             scope: 'openid'
         }
+        console.log(process.env.REACT_APP_VIMC_URL)
         return new Promise((resolve, reject) => {
             axios({
                 method: 'post',
-                url: 'http://oauth.vimc-portal.corlogy.com/api/v1/oauth/token',
+                url: process.env.REACT_APP_VIMC_URL,
                 data: qs.stringify(requestBody),
                 headers: {
                     'Authorization': `Basic ${token}`,
