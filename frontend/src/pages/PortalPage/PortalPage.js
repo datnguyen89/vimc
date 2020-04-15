@@ -12,7 +12,7 @@ import {
   ContentWraper,
   Rows,
   Cols,
-  NotifyLink,
+
 } from './PortalPageStyled'
 import office from './images/office.svg'
 import email from './images/email.svg'
@@ -30,51 +30,57 @@ const PortalPage = (props) => {
       <MainHeader/>
       <ContentWraper>
         <Content>
-          <Rows justify="center" gutter={[16, 32]}>
-            <Cols span={8}>
+          <Rows justify="center" gutter={[15, 15]}>
+            <Cols xs={12} sm={6}>
               <Link to={'#'}>
                 <img src={office} alt="" height={140} width={140}/>
               </Link>
               <b>e-Office</b>
               <p>Văn phòng điện tử</p>
             </Cols>
-            <Cols span={8}>
-              <Link to={
-                {pathname:'/Email'}
-              }>
-                <img src={email} alt="" height={140} width={140}/>
-              </Link>
+            <Cols xs={12} sm={6}>
+              <a href='/Email' target='_blank'><img src={email} alt="" height={140} width={140}/></a>
+              
               <b>e-Mail</b>
               <p>Thư điện tử</p>
             </Cols>
-            <Cols span={8}>
+            <Cols xs={12} sm={6}>
               <Link to={'#'}>
                 <img src={elearning} alt="" height={140} width={140}/>
               </Link>
               <b>e-Learning</b>
               <p>Đào tạo trực tuyến</p>
             </Cols>
-          </Rows>
-          <Rows justify="center" gutter={[16, 16]}>
-            <Cols span={8}>
+
+            <Cols xs={12} sm={6}>
               <Link to={'#'}>
                 <img src={cehr} alt="" height={140} width={140}/>
               </Link>
               <b>CeHR</b>
             </Cols>
-            <Cols span={8}>
+            <Cols xs={12} sm={6}>
               <Link to={'#'}>
                 <img src={misbi} alt="" height={140} width={140}/>
               </Link>
               <b>Mis-BI</b>
             </Cols>
-            <Cols span={8}>
+            <Cols xs={12} sm={6}>
               <Link to={'#'}>
                 <img src={fast} alt="" height={140} width={140}/>
               </Link>
               <b>Fast</b>
             </Cols>
+            <Cols xs={12} sm={6}>
+              <Link to={'#'}>
+                <img src={office} alt="" height={140} width={140}/>
+              </Link>
+              <b>e-Office</b>
+              <p>Trục liên thông</p>
+            </Cols>
           </Rows>
+
+
+
         </Content>
       </ContentWraper>
       <Footer>

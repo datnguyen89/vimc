@@ -1,5 +1,6 @@
-import React, { useState ,Fragment} from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
+import { Redirect } from 'react-router-dom'
 import {
   AuthenBlock,
   Header,
@@ -11,6 +12,9 @@ import logo from './images/logo-header.png'
 import notifyimg from './images/notify.svg'
 import { Button, Dropdown, Modal, Form, Input, Menu } from 'antd'
 import io from 'socket.io-client'
+import { withRouter } from 'react-router-dom'
+import userStore from '../../stores/userStore'
+import {toJS} from 'mobx'
 
 
 const MainHeader = (props) => {
@@ -35,6 +39,7 @@ const MainHeader = (props) => {
       .finally(() => {
         loadingAnimationStore.showSpinner(false)
         setVisible(false)
+        history.push('/HomePage')
       })
 
   }
@@ -49,6 +54,11 @@ const MainHeader = (props) => {
   const handleCancel = (e) => {
     setVisible(false)
   }
+  const logOut = () =>{
+    userStore.userLogout();
+    history.push('/')
+  }
+
   const menu = (
     <Menu>
       {
@@ -60,7 +70,9 @@ const MainHeader = (props) => {
       }
     </Menu>
   )
+
   return (
+
     <HeaderWraper>
       <Header>
         <img src={logo} alt="" height={60}/>
@@ -71,7 +83,21 @@ const MainHeader = (props) => {
               ?
               <Fragment>
                 <AuthenBlock>
-                  {userStore.currentUser.username}
+                  <Dropdown overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <a onClick={logOut}>
+                          Đăng xuất
+                        </a>
+                      </Menu.Item>
+                    </Menu>
+                  }>
+                    <span className="ant-dropdown-link" >
+                      {console.log(toJS(userStore.currentUser))}
+                      test
+                    </span>
+                  </Dropdown>
+
                 </AuthenBlock>
                 <Dropdown
                   placement="bottomRight"
@@ -129,7 +155,9 @@ const MainHeader = (props) => {
     </HeaderWraper>
   )
 }
-export default inject(
-  'userStore',
-  'loadingAnimationStore',
-)(observer(MainHeader))
+export default withRouter(
+  inject(
+    'userStore',
+    'loadingAnimationStore',
+  )(observer(MainHeader)),
+)

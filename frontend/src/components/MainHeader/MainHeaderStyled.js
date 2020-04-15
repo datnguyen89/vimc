@@ -13,6 +13,9 @@ export const AuthenBlock = styled.a`
   margin-left: auto;
   padding-left: 10px;
   color: #333;
+  .ant-dropdown-link{
+    color: #333;
+  }
   &:hover {
     color: #333;
   }
@@ -24,6 +27,9 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 15px 0px;
+  @media (max-width: 425px){
+    flex-direction: column;
+  }
 `
 export const HeaderRight = styled.div`
   display: flex;

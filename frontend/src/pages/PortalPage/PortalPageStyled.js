@@ -10,17 +10,11 @@ export const PortalWraper = styled.div`
   align-items: stretch;
 `
 
-
 export const keyFrameShake = keyframes`
   0% { transform: translate(0px, 2px) rotate(5deg); }  
   50% { transform: translate(0px, 2px) rotate(-5deg); }  
   100% { transform: translate(0px, 2px) rotate(5deg); }
 `
-
-
-
-
-
 
 export const ContentWraper = styled.div`
       flex-grow: 1;
