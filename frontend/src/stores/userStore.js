@@ -16,7 +16,7 @@ class UserStore {
 
   /** User action */
   @action setToken = (token, remember) => {
-    this.token = token;
+    this.token = token
     localStorage.setItem('jwt', token)
     // if (remember) {
     //   localStorage.setItem('jwt', token)
@@ -66,13 +66,13 @@ class UserStore {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       }).then(response => {
-        console.log(response)
+        console.log(response.data)
         this.setToken(response.data.access_token, true)
-        resolve(response)
         message.success('Welcome ' + identifier)
+        resolve('success')
       }).catch(error => {
         console.log(error)
-        reject(error)
+        reject('failed')
       })
     })
   }
@@ -132,10 +132,8 @@ class UserStore {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
         }).then(response => {
-          console.log('response check user',response);
-          const {data} = response;
-          if (data){
-            this.setCurrentUser(data.username)
+          if (response.data) {
+            this.setCurrentUser(response.data.username)
           }
           resolve(response)
         }).catch(error => {

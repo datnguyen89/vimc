@@ -14,7 +14,7 @@ import { Button, Dropdown, Modal, Form, Input, Menu } from 'antd'
 import io from 'socket.io-client'
 import { withRouter } from 'react-router-dom'
 import userStore from '../../stores/userStore'
-import {toJS} from 'mobx'
+import { toJS } from 'mobx'
 
 
 const MainHeader = (props) => {
@@ -33,15 +33,17 @@ const MainHeader = (props) => {
   const onFinish = (values) => {
     loadingAnimationStore.showSpinner(true)
     userStore.userLogin(values.identifier, values.password, false)
-      .then((res) => {
-
+      .then(response => {
+        if (response !== 'success') return
+        userStore.checkCurrentUser()
+          .then(() => {
+            setVisible(false)
+            history.push('/HomePage')
+          })
       })
       .finally(() => {
         loadingAnimationStore.showSpinner(false)
-        setVisible(false)
-        history.push('/HomePage')
       })
-
   }
   const showModal = () => {
     setVisible(true)
@@ -54,10 +56,14 @@ const MainHeader = (props) => {
   const handleCancel = (e) => {
     setVisible(false)
   }
-  const logOut = () =>{
-    userStore.userLogout();
+  const logOut = () => {
+    userStore.userLogout()
     history.push('/')
   }
+
+  useEffect(() => {
+    console.log(toJS(userStore.currentUser))
+  }, [userStore.currentUser])
 
   const menu = (
     <Menu>
@@ -92,9 +98,11 @@ const MainHeader = (props) => {
                       </Menu.Item>
                     </Menu>
                   }>
-                    <span className="ant-dropdown-link" >
-                      {console.log(toJS(userStore.currentUser))}
-                      test
+                    <span className="ant-dropdown-link">
+                      {
+                        toJS(userStore.currentUser)
+                          ? toJS(userStore.currentUser) : null
+                      }
                     </span>
                   </Dropdown>
 
