@@ -100,7 +100,7 @@ const MainHeader = (props) => {
                   }>
                     <span className="ant-dropdown-link">
                       {
-                        toJS(userStore.currentUser)
+                        userStore.currentUser
                           ? toJS(userStore.currentUser) : null
                       }
                     </span>

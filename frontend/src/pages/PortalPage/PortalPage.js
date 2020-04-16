@@ -39,8 +39,8 @@ const PortalPage = (props) => {
               <p>Văn phòng điện tử</p>
             </Cols>
             <Cols xs={12} sm={6}>
-              <a href='/Email' target='_blank'><img src={email} alt="" height={140} width={140}/></a>
-              
+              <Link to='/Email'><img src={email} alt="" height={140} width={140}/></Link>
+
               <b>e-Mail</b>
               <p>Thư điện tử</p>
             </Cols>
@@ -78,7 +78,6 @@ const PortalPage = (props) => {
               <p>Trục liên thông</p>
             </Cols>
           </Rows>
-
 
 
         </Content>

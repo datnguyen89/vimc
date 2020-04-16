@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
 const Email = (props) => {
-  console.log(props.location.param)
+
   const param = {username:'portal.test',password:'123456789'};//call api to get acount for email system
   const { username, password } = param;
   const inputEl = useRef(null)

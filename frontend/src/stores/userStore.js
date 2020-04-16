@@ -6,13 +6,15 @@ import commonStore from './commonStore'
 import { UserRequest } from '../requests'
 import axios from 'axios'
 import qs from 'querystring'
-
+import { toJS } from 'mobx'
 
 class UserStore {
 
   /** User info */
   @observable token = localStorage.getItem('jwt')
-  @observable currentUser = localStorage.getItem('user')
+  @observable currentUser = null
+  @observable ListUsers = null
+  @observable ListAccounts = null
 
   /** User action */
   @action setToken = (token, remember) => {
@@ -66,9 +68,9 @@ class UserStore {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       }).then(response => {
-        console.log(response.data)
+
         this.setToken(response.data.access_token, true)
-        message.success('Welcome ' + identifier)
+
         resolve('success')
       }).catch(error => {
         console.log(error)
@@ -78,49 +80,12 @@ class UserStore {
   }
   @action userLogout = () => {
     return new Promise(resolve => {
-      this.currentUser = {}
+      this.currentUser = null
       this.clearToken()
       resolve()
     })
   }
-  @action updateUserInfo = (userId, info) => {
-    return new Promise((resolve, reject) => {
-      UserRequest.updateUserInfo(userId, info)
-        .then(response => {
-          this.currentUser = response.data
-          resolve(response)
-        })
-        .catch(error => {
-          message.error(error.response.data.message)
-          reject(error)
-        })
-    })
-  }
-  @action sendResetPassword = email => {
-    return new Promise((resolve, reject) => {
-      UserRequest.sendResetPassword(email)
-        .then(response => {
-          resolve(response)
-        })
-        .catch(error => {
-          message.error(error.response.data.message)
-          reject(error)
-        })
-    })
-  }
-  @action userSetNewPassword = (code, password, passwordConfirmation) => {
-    return new Promise((resolve, reject) => {
-      UserRequest.userSetNewPassword(code, password, passwordConfirmation)
-        .then(response => {
-          message.success(`Your password has been changed successfully`)
-          resolve(response)
-        })
-        .catch(error => {
-          message.error(error.response.data.message)
-          reject(error)
-        })
-    })
-  }
+
   @action checkCurrentUser = () => {
     if (this.token) {
       return new Promise((resolve, reject) => {
@@ -134,6 +99,103 @@ class UserStore {
         }).then(response => {
           if (response.data) {
             this.setCurrentUser(response.data.username)
+            message.success('Welcome ' + response.data.username)
+          }
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    }
+  }
+  @action getlistUsers = (pageIndex, pageSize) => {
+    if (this.token) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users`,
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          params: {
+            page: pageIndex,
+            size: pageSize,
+          },
+        }).then(response => {
+          if (response) {
+            this.ListUsers = toJS(response)
+          }
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    }
+  }
+  @action createUser = (option) => {
+    if (this.token) {
+
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users`,
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          data: option,
+        }).then(response => {
+          if (response) {
+
+            message.success('Tạo mới user thành công')
+          }
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    }
+  }
+  @action editUser = (code, option) => {
+    if (this.token) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'put',
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}`,
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          data: option,
+        }).then(response => {
+          if (response) {
+            message.success('Chỉnh sửa User thành công')
+          }
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    }
+  }
+  @action deleteUser = (code) => {
+    if (this.token) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'delete',
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}`,
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+        }).then(response => {
+          if (response) {
+            message.success('Xóa User thành công')
           }
           resolve(response)
         }).catch(error => {

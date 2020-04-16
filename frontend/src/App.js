@@ -11,6 +11,7 @@ import { Provider } from 'mobx-react'
 import commonStore from './stores/commonStore'
 import loadingAnimationStore from './stores/loadingAnimationStore'
 import userStore from './stores/userStore'
+import accountStore from './stores/accountStore'
 // Pages
 import PortalPage from './pages/PortalPage'
 import EOffice from './pages/EOffice'
@@ -36,6 +37,7 @@ const rootStore = {
   commonStore,
   loadingAnimationStore,
   userStore,
+  accountStore,
 }
 
 const App = () => {
