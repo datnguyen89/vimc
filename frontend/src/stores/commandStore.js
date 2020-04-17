@@ -25,7 +25,7 @@ class CommandStore {
 
         }).then(response => {
           if (response) {
-            this.ListCommands = toJS(response)
+            this.ListCommands = toJS(response.data)
             // this.setListCommands(toJS(response))
             console.log(toJS(response))
           }

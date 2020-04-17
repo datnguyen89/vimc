@@ -60,16 +60,16 @@ const ListAccounts = (props) => {
               accountStore.listAccounts.data.map(item =>
                 <Row key={item.id} align={'middle'} gutter={[15, 15]}>
                   <Col span={5}> <b>{item.command.code}</b></Col>
-                  <Col span={8}><Input placeholder="" defaultValue={item.account_name} prefix={<UserOutlined/>}/></Col>
+                  <Col span={8}><Input disabled={true} placeholder="" defaultValue={item.account_name} prefix={<UserOutlined/>}/></Col>
                   <Col span={8}>
-                    <Input.Password placeholder="" defaultValue={item.password} prefix={<QuestionCircleOutlined/>}/>
+                    <Input.Password disabled={true} placeholder="" defaultValue={item.password} prefix={<QuestionCircleOutlined/>}/>
                   </Col>
                   <Col span={3}>
                     <Space>
 
                       <a><EditAccount callback={callback} dataAccount={item}/></a>
                       <Popconfirm
-                        title="Bạn chắc chắn muốn xóa user này ?"
+                        title="Bạn chắc chắn muốn xóa account này ?"
                         onConfirm={() => confirm(item.id)}
                         onCancel={cancel}
                         okText="Xác nhận"
