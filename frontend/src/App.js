@@ -12,6 +12,7 @@ import commonStore from './stores/commonStore'
 import loadingAnimationStore from './stores/loadingAnimationStore'
 import userStore from './stores/userStore'
 import accountStore from './stores/accountStore'
+import commandStore from './stores/commandStore'
 // Pages
 import PortalPage from './pages/PortalPage'
 import EOffice from './pages/EOffice'
@@ -38,6 +39,7 @@ const rootStore = {
   loadingAnimationStore,
   userStore,
   accountStore,
+  commandStore,
 }
 
 const App = () => {

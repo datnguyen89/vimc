@@ -17,10 +17,10 @@ const UserAccount = () => {
       <UserAccountWrapper>
 
         <Row gutter={[15, 15]}>
-          <Col span={12}>
+          <Col span={14}>
             <ListUsers edit={false} header={false} paging={false}/>
           </Col>
-          <Col span={12}>
+          <Col span={9}>
             <ListAccounts/>
           </Col>
         </Row>

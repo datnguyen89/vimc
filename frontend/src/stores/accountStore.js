@@ -5,10 +5,13 @@ import { toJS } from 'mobx'
 import userStore from './userStore'
 
 class AccountStore {
-  @observable listAccounts = null;
-  @observable userCode = null;
+  @observable listAccounts = null
+  @observable userCode = null
   @action setUserCode = (code) => {
-    this.userCode = code;
+    this.userCode = code
+  }
+  @action setListAccounts = (list) => {
+    this.listAccounts = list
   }
   @action getListAccounts = () => {
     if (userStore.token) {
@@ -26,7 +29,7 @@ class AccountStore {
         }).then(response => {
           if (response) {
 
-            this.listAccounts = toJS(response)
+            this.setListAccounts(toJS(response))
           }
           resolve(response)
         }).catch(error => {
@@ -60,12 +63,12 @@ class AccountStore {
       })
     }
   }
-  @action editAccount = (code, option) => {
+  @action editAccount = (id, option) => {
     if (userStore.token) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'put',
-          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}`,
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/accounts/${id}`,
           headers: {
             'Authorization': `Bearer ${userStore.token}`,
             'Content-Type': 'application/json',
@@ -83,12 +86,12 @@ class AccountStore {
       })
     }
   }
-  @action deleteUser = (code) => {
+  @action deleteAccount = (id) => {
     if (userStore.token) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'delete',
-          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}`,
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/accounts/${id}`,
           headers: {
             'Authorization': `Bearer ${userStore.token}`,
             'Content-Type': 'application/json',
@@ -105,6 +108,8 @@ class AccountStore {
       })
     }
   }
+
+
 }
 
 export default new AccountStore()

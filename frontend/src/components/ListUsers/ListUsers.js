@@ -63,6 +63,11 @@ const ListUsers = (props) => {
       dataIndex: 'email',
       key: 'email',
     },
+    {
+      title: 'Số điện thoại',
+      dataIndex: 'phone',
+      key: 'phone',
+    },
     edit ?
       {
         title: 'Tác vụ',

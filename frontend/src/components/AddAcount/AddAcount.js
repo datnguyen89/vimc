@@ -6,12 +6,17 @@ import {
   AddAccountWrap,
   FormWrapper,
 } from './AddAcountStyled'
+import { toJS } from 'mobx'
 
 
 const AddAccount = props => {
   const [visible, setVisible] = useState(false)
-  const { accountStore, loadingAnimationStore, user_code, callback } = props
+  const { accountStore, loadingAnimationStore, commandStore, user_code, callback } = props
   const { Option } = Select
+
+  useEffect(() => {
+    commandStore.getListCommands()
+  }, [])
   const showModal = () => {
     setVisible(true)
   }
@@ -32,7 +37,7 @@ const AddAccount = props => {
       })
 
   }
-
+  console.log(toJS(commandStore.ListCommands))
   return (
     <AddAccountWrap>
       {
@@ -65,7 +70,7 @@ const AddAccount = props => {
             <Form.Item
               label="Tên tài khoản"
               name="account_name"
-              rules={[{ required: true, message: 'Please input your accountname!' }]}
+              rules={[{ required: true, message: 'Tên tài khoản không được để trống!' }]}
             >
               <Input/>
             </Form.Item>
@@ -74,18 +79,21 @@ const AddAccount = props => {
             <Form.Item
               label="Hệ thống"
               name="command_code"
-              rules={[{ required: true, message: 'Province is required' }]}
+              rules={[{ required: true, message: 'Hãy chọn hệ thống' }]}
             >
               <Select placeholder="Chọn hệ thống">
-                <Option value="E_OFFICE">E_OFFICE</Option>
-                <Option value="E_MAIL">E_MAIL</Option>
+                {
+                  commandStore.ListCommands && commandStore.ListCommands.length > 0 && commandStore.ListCommands.map((item, index) =>
+                    <Option key={index} value={item.code}>item.code</Option>,
+                  )
+                }
               </Select>
             </Form.Item>
 
             <Form.Item
               label="Mật khẩu"
               name="password"
-              rules={[{ required: true, message: 'Please input your accountname!' }]}
+              rules={[{ required: true, message: 'Mật khẩu không được để trống!' }]}
             >
               <Input.Password/>
             </Form.Item>
@@ -103,6 +111,6 @@ const AddAccount = props => {
   )
 }
 
-AddAccount.propTypes = {}
 
-export default inject('accountStore', 'loadingAnimationStore')(observer(AddAccount))
+
+export default inject('accountStore', 'commandStore', 'loadingAnimationStore')(observer(AddAccount))

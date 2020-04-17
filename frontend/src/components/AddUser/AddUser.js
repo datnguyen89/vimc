@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Modal, Button, Form, Input } from 'antd'
+import { Modal, Button, Form, Input,Row,Col } from 'antd'
 import { inject, observer } from 'mobx-react'
 import {
   Hidden,
@@ -33,10 +33,14 @@ const AddUser = props => {
   return (
     <AddUserWrap>
       {
+        <Row justify={'end'} gutter={[15,15]}>
+          <Col span={4}>
+            <Button type="primary" onClick={showModal}>
+              Thêm mới User
+            </Button>
+          </Col>
+        </Row>
 
-        <Button type="primary" onClick={showModal}>
-          Thêm mới User
-        </Button>
       }
 
       <Modal

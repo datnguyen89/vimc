@@ -1,6 +1,7 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment, useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Input, Col, Row, Space } from 'antd'
+import { Input, Col, Row, Space, Popconfirm } from 'antd'
+import { withRouter } from 'react-router-dom'
 import {
   UserOutlined,
   QuestionCircleOutlined,
@@ -12,6 +13,8 @@ import {
 } from './ListAccountsStyled'
 
 import AddAccount from '../../components/AddAcount'
+import EditAccount from '../../components/EditAccount'
+import { toJS } from 'mobx'
 
 const ListAccounts = (props) => {
   const { accountStore } = props
@@ -22,8 +25,23 @@ const ListAccounts = (props) => {
     }
   }, [accountStore.userCode])
   const callback = () => {
-    accountStore.getListAccounts()
+
   }
+  function confirm(id) {
+    accountStore.deleteAccount(id)
+      .then((response) => {
+        if (!response) return
+        accountStore.getListAccounts()
+      })
+      .finally(() => {
+
+      })
+  }
+
+  function cancel(e) {
+    console.log(e)
+  }
+
   return (
     <Fragment>
       {
@@ -48,8 +66,17 @@ const ListAccounts = (props) => {
                   </Col>
                   <Col span={3}>
                     <Space>
-                      <a><EditOutlined/></a>
-                      <a><DeleteOutlined/></a>
+
+                      <a><EditAccount callback={callback} dataAccount={item}/></a>
+                      <Popconfirm
+                        title="Bạn chắc chắn muốn xóa user này ?"
+                        onConfirm={() => confirm(item.id)}
+                        onCancel={cancel}
+                        okText="Xác nhận"
+                        cancelText="Hủy bỏ"
+                      >
+                        <a><DeleteOutlined/></a>
+                      </Popconfirm>
                     </Space>
                   </Col>
                 </Row>,
