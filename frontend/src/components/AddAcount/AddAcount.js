@@ -25,6 +25,7 @@ const AddAccount = props => {
   }
   const onFinish = values => {
     console.log(values)
+
     loadingAnimationStore.showSpinner(true)
     accountStore.createAccount(values)
       .then((response) => {
