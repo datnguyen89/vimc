@@ -62,7 +62,7 @@ const ListAccounts = (props) => {
                   <Col span={5}> <b>{item.command.code}</b></Col>
                   <Col span={8}><Input placeholder="" defaultValue={item.account_name} prefix={<UserOutlined/>}/></Col>
                   <Col span={8}>
-                    <Input placeholder="" defaultValue={item.password} prefix={<QuestionCircleOutlined/>}/>
+                    <Input.Password placeholder="" defaultValue={item.password} prefix={<QuestionCircleOutlined/>}/>
                   </Col>
                   <Col span={3}>
                     <Space>

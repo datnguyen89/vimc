@@ -7,10 +7,10 @@ import userStore from './userStore'
 
 class CommandStore {
 
-  @observable ListCommands = null
-  @action setListCommands = (list) => {
-    this.ListCommands = list
-  }
+  @observable ListCommands = []
+  // @action setListCommands = (list) => {
+  //   this.ListCommands = list
+  // }
 
   @action getListCommands = () => {
     if (userStore.token) {
@@ -26,7 +26,7 @@ class CommandStore {
         }).then(response => {
           if (response) {
             this.ListCommands = toJS(response)
-            this.setListCommands(toJS(response))
+            // this.setListCommands(toJS(response))
             console.log(toJS(response))
           }
           resolve(response)

@@ -28,7 +28,6 @@ class AccountStore {
           },
         }).then(response => {
           if (response) {
-
             this.setListAccounts(toJS(response))
           }
           resolve(response)

@@ -61,9 +61,7 @@ const MainHeader = (props) => {
     history.push('/')
   }
 
-  useEffect(() => {
-    console.log(toJS(userStore.currentUser))
-  }, [userStore.currentUser])
+
 
   const menu = (
     <Menu>
