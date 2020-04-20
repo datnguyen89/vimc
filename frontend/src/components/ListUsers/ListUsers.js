@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Table } from 'antd'
-import { Pagination, Popconfirm, Divider, Tooltip } from 'antd'
+import { Pagination, Popconfirm, Divider, Tooltip, Tag } from 'antd'
 import {
   DeleteOutlined,
   FolderOpenOutlined,
@@ -13,34 +13,27 @@ import { ActionRow } from './ListUsersStyled'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
 const ListUsers = (props) => {
-
-  const { header, paging, edit, userStore, accountStore, commonStore } = props
+  const { header, paging, edit, userStore, accountStore, viewInfo, viewCommand } = props
   const pageSize = 10
   const [pageIndex, setPageIndex] = useState(0)
-
   const iconStyle = {
     color: '#fc0000',
   }
-
   useEffect(() => {
     userStore.getlistUsers(pageIndex, pageSize)
   }, [pageIndex])
-
   let data = null
   let total_page = 0
   if (userStore.ListUsers) {
-    data = userStore.ListUsers.data.data
+    data = userStore.ListUsers.data
     total_page = userStore.ListUsers.total_page
   }
-
   const callback = () => {
     userStore.getlistUsers(0, pageSize)
   }
-
   const onChange = page => {
     setPageIndex(page)
   }
-
   const viewAccounts = (code) => {
     accountStore.setUserCode(code)
   }
@@ -64,22 +57,37 @@ const ListUsers = (props) => {
       key: 'name_lowercase',
       render: text => <span>{text}</span>,
     },
-    {
-      title: 'Công ty',
-      dataIndex: 'company',
-      key: 'company',
-      render: company => <span>{company.name}</span>,
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
+    viewInfo ?
+      {
+        title: 'Công ty',
+        dataIndex: 'company',
+        key: 'company',
+        render: company => <span>{company.name}</span>,
+      } : {},
+    viewInfo ?
+      {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+      } : {},
+    viewInfo ?
+      {
+        title: 'Số điện thoại',
+        dataIndex: 'phone',
+        key: 'phone',
+      } : {},
+    viewCommand ?
+      {
+        title: 'Portal',
+        dataIndex: 'commands',
+        key: 'commands',
+        render: commands => (
+         commands.map((item,index)=>
+           <Tag key={index}>{item.name}</Tag>
+         )
+
+        ),
+      } : {},
     edit ?
       {
         title: 'Tác vụ',

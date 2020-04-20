@@ -102,6 +102,7 @@ class UserStore {
           resolve(response)
         }).catch(error => {
           console.log(error)
+          this.clearToken()
           reject(error)
         })
       })
@@ -123,7 +124,8 @@ class UserStore {
           },
         }).then(response => {
           if (response) {
-            this.ListUsers = toJS(response)
+            console.log(response.data)
+            this.ListUsers = toJS(response.data)
           }
           resolve(response)
         }).catch(error => {

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
 import {
@@ -48,6 +48,9 @@ const MainHeader = (props) => {
         loadingAnimationStore.showSpinner(false)
       })
   }
+  useEffect(()=>{
+    userStore.checkCurrentUser()
+  },[])
   const showModal = () => {
     setVisible(true)
   }

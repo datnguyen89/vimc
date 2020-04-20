@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MainLayout from '../../layouts/MainLayout'
 import { inject, observer } from 'mobx-react'
 import ListUsers from '../../components/ListUsers'
+
 import AddUser from '../../components/AddUser'
 
 const Divider = () => <div style={{ marginBottom: 15 }}/>
@@ -11,7 +12,7 @@ const UserInfo = () => {
     <MainLayout>
       <AddUser/>
       <Divider/>
-      <ListUsers edit={true} header={true} paging={true}/>
+      <ListUsers edit={true} header={true} viewInfo={true} viewCommand={false} paging={true}/>
     </MainLayout>
 
   )
