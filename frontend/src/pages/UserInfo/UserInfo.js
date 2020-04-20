@@ -27,7 +27,7 @@ const UserInfo = (props) => {
     <MainLayout>
       <UserInfoWrap>
         <AddUser/>
-        <ListUsers edit={true} header={true} paging={true}/>
+        <ListUsers edit={true} header={true} viewInfo={true} viewCommand={false} paging={true}/>
       </UserInfoWrap>
     </MainLayout>
 

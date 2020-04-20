@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Table } from 'antd'
-import { Pagination, Popconfirm } from 'antd'
+import { Pagination, Popconfirm, Tag } from 'antd'
 import {
   DeleteOutlined,
   FolderOpenOutlined,
@@ -11,7 +11,7 @@ import EditUser from '../../components/EditUser'
 import accountStore from '../../stores/accountStore'
 
 const ListUsers = (props) => {
-  const { header, paging, edit, userStore, accountStore } = props
+  const { header, paging, edit, userStore, accountStore, viewInfo, viewCommand } = props
   const pageSize = 10
   const [pageIndex, setPageIndex] = useState(0)
   useEffect(() => {
@@ -20,7 +20,7 @@ const ListUsers = (props) => {
   let data = null
   let total_page = 0
   if (userStore.ListUsers) {
-    data = userStore.ListUsers.data.data
+    data = userStore.ListUsers.data
     total_page = userStore.ListUsers.total_page
   }
   const callback = () => {
@@ -52,22 +52,37 @@ const ListUsers = (props) => {
       key: 'name_lowercase',
       render: text => <span>{text}</span>,
     },
-    {
-      title: 'Công ty',
-      dataIndex: 'company',
-      key: 'company',
-      render: company => <span>{company.name}</span>,
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Số điện thoại',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
+    viewInfo ?
+      {
+        title: 'Công ty',
+        dataIndex: 'company',
+        key: 'company',
+        render: company => <span>{company.name}</span>,
+      } : {},
+    viewInfo ?
+      {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+      } : {},
+    viewInfo ?
+      {
+        title: 'Số điện thoại',
+        dataIndex: 'phone',
+        key: 'phone',
+      } : {},
+    viewCommand ?
+      {
+        title: 'Portal',
+        dataIndex: 'commands',
+        key: 'commands',
+        render: commands => (
+         commands.map((item,index)=>
+           <Tag key={index}>{item.name}</Tag>
+         )
+
+        ),
+      } : {},
     edit ?
       {
         title: 'Tác vụ',
@@ -111,7 +126,7 @@ const ListUsers = (props) => {
       <Table columns={columns} pagination={false} showHeader={header} dataSource={data}/>
       <br/>
       {
-        paging && <Pagination current={pageIndex} onChange={onChange} total={total_page}/>
+        paging && total_page > 1 && <Pagination current={pageIndex} onChange={onChange} total={total_page}/>
       }
     </Fragment>
 

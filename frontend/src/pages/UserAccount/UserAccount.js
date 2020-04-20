@@ -18,7 +18,7 @@ const UserAccount = () => {
 
         <Row gutter={[15, 15]}>
           <Col span={14}>
-            <ListUsers edit={false} header={false} paging={false}/>
+            <ListUsers edit={false} viewInfo={false} viewCommand={true}  header={false} paging={false}/>
           </Col>
           <Col span={9}>
             <ListAccounts/>

@@ -99,11 +99,12 @@ class UserStore {
         }).then(response => {
           if (response.data) {
             this.setCurrentUser(response.data.username)
-            message.success('Welcome ' + response.data.username)
+            // message.success('Welcome ' + response.data.username)
           }
           resolve(response)
         }).catch(error => {
           console.log(error)
+          this.clearToken()
           reject(error)
         })
       })
@@ -125,7 +126,8 @@ class UserStore {
           },
         }).then(response => {
           if (response) {
-            this.ListUsers = toJS(response)
+            console.log(response.data)
+            this.ListUsers = toJS(response.data)
           }
           resolve(response)
         }).catch(error => {

@@ -45,6 +45,9 @@ const MainHeader = (props) => {
         loadingAnimationStore.showSpinner(false)
       })
   }
+  useEffect(()=>{
+    userStore.checkCurrentUser()
+  },[])
   const showModal = () => {
     setVisible(true)
   }
