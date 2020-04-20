@@ -24,8 +24,6 @@ const AddAccount = props => {
     setVisible(false)
   }
   const onFinish = values => {
-    console.log(values)
-
     loadingAnimationStore.showSpinner(true)
     accountStore.createAccount(values)
       .then((response) => {
@@ -43,7 +41,6 @@ const AddAccount = props => {
       <div></div>
     )
   }
-  console.log(toJS(commandStore.ListCommands))
   return (
     <AddAccountWrap>
       {
