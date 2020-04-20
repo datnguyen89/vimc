@@ -6,9 +6,11 @@
   &-right {
     text-align: right;
   }
+
   &-left {
     text-align: left;
   }
+
   &-center {
     text-align: center;
   }
@@ -32,22 +34,6 @@
   }
 }
 
-.ant-form {
-  .ant-input {
-    &:not(textarea) {
-      height: 40px !important;
-    }
-  }
-}
-
-.ant-btn {
-  height: 40px !important;
-}
-
-.user-avatar-menu {
-  min-width: 204px !important;
-}
-
 .ant-collapse {
   background-color: #fff;
   border: none;
@@ -56,4 +42,21 @@
 
 .ant-collapse > .ant-collapse-item:last-child, .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header {
   border-radius: 0;
+}
+
+.ant-input-password {
+  &.ant-input-affix-wrapper {
+    padding: 0;
+  }
+  input {
+    padding: 4px 11px !important;
+  }
+  .ant-input-suffix {
+    margin-left: 0;
+    position: absolute;
+    right: 10px;
+    z-index: 1;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }

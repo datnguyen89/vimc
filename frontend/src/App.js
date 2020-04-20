@@ -8,6 +8,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 // MobX
 import { Provider } from 'mobx-react'
+import { toJS } from 'mobx'
 import commonStore from './stores/commonStore'
 import loadingAnimationStore from './stores/loadingAnimationStore'
 import userStore from './stores/userStore'
@@ -48,6 +49,10 @@ const App = () => {
     userStore.checkCurrentUser()
   }, [])
 
+  useEffect(() => {
+    commonStore.setTheme('blue')
+  }, [])
+
   return (
     <Provider {...rootStore}>
       <ThemeProvider>
@@ -59,7 +64,6 @@ const App = () => {
             <ProtectedRoute exact path='/HomePage' component={HomePage}/>
             <ProtectedRoute exact path='/UserInfo' component={UserInfo}/>
             <ProtectedRoute exact path='/UserAccount' component={UserAccount}/>
-
           </Switch>
         </Router>
         <LoadingSpinner/>

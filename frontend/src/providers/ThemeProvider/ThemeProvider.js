@@ -17,13 +17,6 @@ const ThemeProvider = ({ commonStore, children }) => {
       background: ${solidColor} !important;
     }
     /** Button */
-    .ant-btn {
-      color: ${solidColor} !important;
-      border-color: ${solidColor} !important;
-      &:hover {
-        box-shadow: ${shadowColor};
-      }
-    }
     .ant-btn-primary {
       background: ${gradientColor} !important;
       border-color: ${solidColor} !important;
@@ -59,7 +52,6 @@ const ThemeProvider = ({ commonStore, children }) => {
     .ant-select {
       .ant-select-selector {
         align-items: center;
-        height: 40px !important;
       }
       &:not(.ant-select-disabled) {
         &:hover {

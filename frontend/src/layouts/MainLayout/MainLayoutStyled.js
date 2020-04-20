@@ -12,4 +12,6 @@ export const Body = styled.div`
 export const Content = styled.div`
   flex-grow: 1;
   background: #ffffff;
+  padding: 15px;
+  width: calc(100% - 256px);
 `

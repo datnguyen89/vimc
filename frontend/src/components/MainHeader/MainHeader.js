@@ -1,12 +1,12 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   AuthenBlock,
   Header,
   HeaderRight,
   HeaderTitle, HeaderWraper,
-  NotifyBlockShake, NotifyCount, NotifyLink,
+  NotifyBlockShake, NotifyCount, NotifyLink, LogoWrapper
 } from './MainHeaderStyled'
 import logo from './images/logo-header.png'
 import notifyimg from './images/notify.svg'
@@ -19,9 +19,9 @@ import { toJS } from 'mobx'
 
 const MainHeader = (props) => {
   const { userStore, loadingAnimationStore, history } = props
-  const [visible, setVisible] = useState(false)//modal login
-  const [notify, setNotify] = useState([])// notify list item
-  const [openNoti, setOpenNoti] = useState(false)//notify dropdown
+  const [visible, setVisible] = useState(false) //modal login
+  const [notify, setNotify] = useState([]) // notify list item
+  const [openNoti, setOpenNoti] = useState(false) //notify dropdown
   const socket = io('http://1.55.17.186:3000')
   socket.on('message', (msg) => {
     let currNoti = [msg, ...notify]
@@ -62,7 +62,6 @@ const MainHeader = (props) => {
   }
 
 
-
   const menu = (
     <Menu>
       {
@@ -79,7 +78,9 @@ const MainHeader = (props) => {
 
     <HeaderWraper>
       <Header>
-        <img src={logo} alt="" height={60}/>
+        <LogoWrapper to={'/'}>
+          <img src={logo} alt="" height={40}/>
+        </LogoWrapper>
         <HeaderRight>
           <HeaderTitle>Vietnam Maritime Corporation - Portal</HeaderTitle>
           {
@@ -129,6 +130,7 @@ const MainHeader = (props) => {
 
         </HeaderRight>
       </Header>
+
       <Modal
         title="Đăng nhập hệ thống"
         visible={visible}

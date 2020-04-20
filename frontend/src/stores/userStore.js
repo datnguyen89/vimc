@@ -68,9 +68,8 @@ class UserStore {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       }).then(response => {
-
         this.setToken(response.data.access_token, true)
-
+        message.success(`Welcome, ${identifier}`)
         resolve('success')
       }).catch(error => {
         console.log(error)
@@ -99,7 +98,6 @@ class UserStore {
         }).then(response => {
           if (response.data) {
             this.setCurrentUser(response.data.username)
-            message.success('Welcome ' + response.data.username)
           }
           resolve(response)
         }).catch(error => {
