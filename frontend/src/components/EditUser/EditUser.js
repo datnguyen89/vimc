@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Modal, Button, Form, Input } from 'antd'
 import {
-  EditOutlined
+  EditOutlined,
 } from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import {
@@ -40,19 +40,13 @@ const EditUser = props => {
       })
 
   }
-  const layout = {
-    labelCol: { span: 6 },
-    // wrapperCol: { span: 16 },
-  }
-  const tailLayout = {
-    wrapperCol: { offset: 0, span: 18 },
-  }
+
   return (
     <EditUserWrap>
       {
 
         <a onClick={showModal}>
-          <EditOutlined />
+          <EditOutlined/>
         </a>
       }
 
@@ -64,7 +58,7 @@ const EditUser = props => {
       >
         <FormWrapper>
           <Form
-            {...layout}
+            layout={'vertical'}
             name="basic"
             initialValues={{
               company_code: 'CPN7451091748209',
@@ -76,23 +70,19 @@ const EditUser = props => {
           >
             <Hidden>
               <Form.Item
-                {...tailLayout}
                 label="company_code"
                 name="company_code"
               >
                 <Input/>
               </Form.Item>
               <Form.Item
-                {...tailLayout}
                 label="code"
                 name="code"
               >
                 <Input/>
               </Form.Item>
             </Hidden>
-
             <Form.Item
-              {...tailLayout}
               label="Họ tên"
               name="name"
               rules={[{ required: true, message: 'Please input your username!' }]}
@@ -100,18 +90,14 @@ const EditUser = props => {
               <Input/>
             </Form.Item>
             <Form.Item
-              {...tailLayout}
               label="Số điện thoại"
               name="phone"
               rules={[{ required: true, message: 'Please input your username!' }]}
             >
               <Input/>
             </Form.Item>
-
-
-            <Form.Item
-              {...tailLayout} >
-              <Button type="primary" htmlType="submit">
+            <Form.Item>
+              <Button type="primary" htmlType="submit" block>
                 {'Chỉnh sửa'}
               </Button>
             </Form.Item>

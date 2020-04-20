@@ -10,6 +10,7 @@ import { toJS } from 'mobx'
 import EditUser from '../../components/EditUser'
 import accountStore from '../../stores/accountStore'
 import { ActionRow } from './ListUsersStyled'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 const ListUsers = (props) => {
 
@@ -18,7 +19,7 @@ const ListUsers = (props) => {
   const [pageIndex, setPageIndex] = useState(0)
 
   const iconStyle = {
-    color: commonStore.appTheme.solidColor
+    color: '#fc0000',
   }
 
   useEffect(() => {
@@ -97,9 +98,10 @@ const ListUsers = (props) => {
                 title="Bạn chắc chắn muốn xóa user này ?"
                 onConfirm={() => confirm(code)}
                 onCancel={cancel}
+                okType={'danger'}
                 okText="Xác nhận"
-                cancelText="Hủy bỏ"
-              >
+                icon={<QuestionCircleOutlined style={{ color: 'red' }}/>}
+                cancelText="Hủy bỏ">
                 <Tooltip title={'Xoá'}>
                   <DeleteOutlined style={iconStyle}/>
                 </Tooltip>
@@ -112,13 +114,7 @@ const ListUsers = (props) => {
         title: 'Tác vụ',
         dataIndex: 'code',
         key: 'code',
-        render: code => (
-          <span>
-            <a onClick={() => viewAccounts(code)}>
-              <FolderOpenOutlined/>
-            </a>
-          </span>
-        ),
+        render: code => <FolderOpenOutlined onClick={() => viewAccounts(code)}/>,
       },
 
   ]
@@ -128,10 +124,23 @@ const ListUsers = (props) => {
 
     data && <Fragment>
 
-      <Table columns={columns} pagination={false} showHeader={header} dataSource={data}/>
+      <Table
+        rowKey={record => record.code}
+        columns={columns}
+        pagination={false}
+        showHeader={header}
+        dataSource={data}
+        scroll={{ x: 800 }}
+      />
       <br/>
       {
-        paging && <Pagination current={pageIndex} onChange={onChange} total={total_page}/>
+        paging &&
+        <Pagination
+          current={pageIndex}
+          hideOnSinglePage={true}
+          onChange={onChange}
+          total={total_page}
+        />
       }
     </Fragment>
 

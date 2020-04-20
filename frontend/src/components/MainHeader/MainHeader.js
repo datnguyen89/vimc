@@ -6,7 +6,7 @@ import {
   Header,
   HeaderRight,
   HeaderTitle, HeaderWraper,
-  NotifyBlockShake, NotifyCount, NotifyLink, LogoWrapper
+  NotifyBlockShake, NotifyCount, NotifyLink, LogoWrapper,
 } from './MainHeaderStyled'
 import logo from './images/logo-header.png'
 import notifyimg from './images/notify.svg'
@@ -15,6 +15,7 @@ import io from 'socket.io-client'
 import { withRouter } from 'react-router-dom'
 import userStore from '../../stores/userStore'
 import { toJS } from 'mobx'
+import { LogoutOutlined } from '@ant-design/icons'
 
 
 const MainHeader = (props) => {
@@ -22,11 +23,13 @@ const MainHeader = (props) => {
   const [visible, setVisible] = useState(false) //modal login
   const [notify, setNotify] = useState([]) // notify list item
   const [openNoti, setOpenNoti] = useState(false) //notify dropdown
-  const socket = io('http://1.55.17.186:3000')
-  socket.on('message', (msg) => {
-    let currNoti = [msg, ...notify]
-    setNotify(currNoti)
-  })
+
+  // const socket = io('http://1.55.17.186:3000')
+  // socket.on('message', (msg) => {
+  //   let currNoti = [msg, ...notify]
+  //   setNotify(currNoti)
+  // })
+
   const toogleNoti = () => {
     setOpenNoti(!openNoti)
   }
@@ -91,7 +94,8 @@ const MainHeader = (props) => {
                   <Dropdown overlay={
                     <Menu>
                       <Menu.Item>
-                        <a onClick={logOut}>
+                        <a onClick={logOut} style={{ color: '#fc0000' }}>
+                          <LogoutOutlined style={{ marginRight: 10 }}/>
                           Đăng xuất
                         </a>
                       </Menu.Item>

@@ -1,7 +1,5 @@
-import styled, { keyframes, css } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Row, Col } from 'antd'
-import { Link } from 'react-router-dom'
-
 
 export const PortalWraper = styled.div`
   min-height: 100vh;
@@ -17,7 +15,8 @@ export const keyFrameShake = keyframes`
 `
 
 export const ContentWraper = styled.div`
-      flex-grow: 1;
+  flex-grow: 1;
+  padding-top: 45px;
 `
 export const Content = styled.div`
   width: 80%;
@@ -36,6 +35,5 @@ export const Cols = styled(Col)`
   padding: 16px 8px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `

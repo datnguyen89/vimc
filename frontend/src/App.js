@@ -53,6 +53,7 @@ const App = () => {
     commonStore.setTheme('blue')
   }, [])
 
+
   return (
     <Provider {...rootStore}>
       <ThemeProvider>

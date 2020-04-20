@@ -32,16 +32,12 @@ const AddUser = props => {
 
   return (
     <AddUserWrap>
-      {
-        <Row justify={'end'} gutter={[15, 15]}>
-          <Col span={4}>
-            <Button type="primary" onClick={showModal}>
-              Thêm mới User
-            </Button>
-          </Col>
-        </Row>
 
-      }
+      <Row type={'flex'} justify={'end'}>
+        <Button type="primary" onClick={showModal}>
+          Thêm mới User
+        </Button>
+      </Row>
 
       <Modal
         title={'Tạo mới User'}
@@ -51,6 +47,7 @@ const AddUser = props => {
       >
         <FormWrapper>
           <Form
+            layout={'vertical'}
             name="basic"
             initialValues={{ company_code: 'CPN7451091748209' }}
             onFinish={onFinish}
@@ -101,9 +98,18 @@ const AddUser = props => {
 
 
             <Form.Item>
-              <Button type="primary" htmlType="submit">
-                {'Tạo mới'}
-              </Button>
+              <Row type={'flex'} justify={'space-between'} gutter={10}>
+                <Col span={12}>
+                  <Button type="primary" htmlType="submit" block>
+                    {'Tạo mới'}
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button  onClick={() => setVisible(false)} block>
+                    Huỷ
+                  </Button>
+                </Col>
+              </Row>
             </Form.Item>
           </Form>
         </FormWrapper>

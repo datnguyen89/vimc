@@ -21,7 +21,7 @@ import cehr from './images/cehr.svg'
 import misbi from './images/mis-bi.svg'
 import fast from './images/fast.svg'
 
-const PortalPage = (props) => {
+const PortalPage = props => {
 
   const { userStore, loadingAnimationStore, history } = props
 
@@ -40,7 +40,6 @@ const PortalPage = (props) => {
             </Cols>
             <Cols xs={12} sm={6}>
               <Link to='/Email'><img src={email} alt="" height={140} width={140}/></Link>
-
               <b>e-Mail</b>
               <p>Thư điện tử</p>
             </Cols>
@@ -51,7 +50,6 @@ const PortalPage = (props) => {
               <b>e-Learning</b>
               <p>Đào tạo trực tuyến</p>
             </Cols>
-
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
                 <img src={cehr} alt="" height={140} width={140}/>
@@ -78,14 +76,11 @@ const PortalPage = (props) => {
               <p>Trục liên thông</p>
             </Cols>
           </Rows>
-
-
         </Content>
       </ContentWraper>
       <Footer>
         © 2019 Trung tâm Công nghệ thông tin - Hotline hỗ trợ 1687
       </Footer>
-
     </PortalWraper>
   )
 }
