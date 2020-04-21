@@ -16,24 +16,31 @@ const ListUsers = (props) => {
   const { header, paging, edit, userStore, accountStore, viewInfo, viewCommand } = props
   const pageSize = 10
   const [pageIndex, setPageIndex] = useState(0)
+
   const iconStyle = {
     color: '#fc0000',
   }
+
   useEffect(() => {
     userStore.getlistUsers(pageIndex, pageSize)
   }, [pageIndex])
+
   let data = null
   let total_page = 0
+
   if (userStore.ListUsers) {
     data = userStore.ListUsers.data
     total_page = userStore.ListUsers.total_page
   }
+
   const callback = () => {
     userStore.getlistUsers(0, pageSize)
   }
+
   const onChange = page => {
     setPageIndex(page)
   }
+
   const viewAccounts = (code) => {
     accountStore.setUserCode(code)
   }
@@ -124,7 +131,6 @@ const ListUsers = (props) => {
         key: 'code',
         render: code => <FolderOpenOutlined onClick={() => viewAccounts(code)}/>,
       },
-
   ]
 
 

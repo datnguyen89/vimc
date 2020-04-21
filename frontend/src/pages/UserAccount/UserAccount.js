@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import MainLayout from '../../layouts/MainLayout'
 import ListUsers from '../../components/ListUsers'
 import ListAccounts from '../../components/ListAccount'
-import { Input, Row, Col } from 'antd'
+import { Row, Col } from 'antd'
 import {
   UserAccountWrapper,
 } from './UserAccountStyled'
