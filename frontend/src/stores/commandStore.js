@@ -1,16 +1,10 @@
 import { observable, action } from 'mobx'
-import { message } from 'antd'
 import axios from 'axios'
-import qs from 'querystring'
-import { toJS } from 'mobx'
 import userStore from './userStore'
 
 class CommandStore {
 
   @observable ListCommands = []
-  // @action setListCommands = (list) => {
-  //   this.ListCommands = list
-  // }
 
   @action getListCommands = () => {
     if (userStore.token) {
@@ -25,7 +19,7 @@ class CommandStore {
 
         }).then(response => {
           if (response) {
-            this.ListCommands = toJS(response.data)
+            this.ListCommands = response.data
           }
           resolve(response)
         }).catch(error => {

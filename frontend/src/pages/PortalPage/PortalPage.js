@@ -1,10 +1,7 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
-
-
 import MainHeader from '../../components/MainHeader'
-
 import {
   PortalWraper,
   Content,
@@ -12,14 +9,7 @@ import {
   ContentWraper,
   Rows,
   Cols,
-
 } from './PortalPageStyled'
-import office from './images/office.svg'
-import email from './images/email.svg'
-import elearning from './images/e-learning.svg'
-import cehr from './images/cehr.svg'
-import misbi from './images/mis-bi.svg'
-import fast from './images/fast.svg'
 
 const PortalPage = props => {
 
@@ -30,50 +20,59 @@ const PortalPage = props => {
       <MainHeader/>
       <ContentWraper>
         <Content>
-          <Rows justify="center" gutter={[15, 15]}>
+          <Rows justify="center" gutter={[15, 40]}>
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
-                <img src={office} alt="" height={140} width={140}/>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/eOffice.png`} width={140} alt={''}/>
               </Link>
-              <b>e-Office</b>
+              <strong>e-Office</strong>
               <p>Văn phòng điện tử</p>
             </Cols>
             <Cols xs={12} sm={6}>
-              <Link to='/Email'><img src={email} alt="" height={140} width={140}/></Link>
-              <b>e-Mail</b>
+              <Link to='/Email'>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/eMail.png`} width={140} alt={''}/>
+              </Link>
+              <strong>e-Mail</strong>
               <p>Thư điện tử</p>
             </Cols>
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
-                <img src={elearning} alt="" height={140} width={140}/>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/eLearning.png`} width={140} alt={''}/>
               </Link>
-              <b>e-Learning</b>
+              <strong>e-Learning</strong>
               <p>Đào tạo trực tuyến</p>
             </Cols>
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
-                <img src={cehr} alt="" height={140} width={140}/>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/CeHR.png`} width={140} alt={''}/>
               </Link>
-              <b>CeHR</b>
+              <strong>CeHR</strong>
             </Cols>
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
-                <img src={misbi} alt="" height={140} width={140}/>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/Mis-BI.png`} width={140} alt={''}/>
               </Link>
-              <b>Mis-BI</b>
+              <strong>Mis-BI</strong>
             </Cols>
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
-                <img src={fast} alt="" height={140} width={140}/>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/Fast.png`} width={140} alt={''}/>
               </Link>
-              <b>Fast</b>
+              <strong>Fast</strong>
             </Cols>
             <Cols xs={12} sm={6}>
               <Link to={'#'}>
-                <img src={office} alt="" height={140} width={140}/>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/eOffice2.png`} width={140} alt={''}/>
               </Link>
-              <b>e-Office</b>
+              <strong>e-Office</strong>
               <p>Trục liên thông</p>
+            </Cols>
+            <Cols xs={12} sm={6}>
+              <Link to={'/HomePage'}>
+                <img src={`${process.env.PUBLIC_URL}/assets/icons/dashboard/Dashboard.png`} width={140} alt={''}/>
+              </Link>
+              <strong>Dashboard</strong>
+              <p>Trang quản lý</p>
             </Cols>
           </Rows>
         </Content>

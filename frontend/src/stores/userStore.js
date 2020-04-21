@@ -35,19 +35,6 @@ class UserStore {
     localStorage.clear()
     sessionStorage.clear()
   }
-  @action userRegister = (username, email, password) => {
-    return new Promise((resolve, reject) => {
-      UserRequest.userRegister(username, email, password)
-        .then(response => {
-          message.success(`Account register successfully`)
-          resolve(response)
-        })
-        .catch(error => {
-          message.error(error.response.data.message)
-          reject(error)
-        })
-    })
-  }
 
   @action userLogin = (identifier, password, remember) => {
     const token = Buffer.from(`${'vimc'}:${'03BaArGhaTpR$3vm%KC2BPV5J69$p@'}`, 'utf8').toString('base64')
@@ -57,11 +44,10 @@ class UserStore {
       grant_type: 'password',
       scope: 'openid',
     }
-
     return new Promise((resolve, reject) => {
       axios({
         method: 'post',
-        url: process.env.REACT_APP_VIMC_URL,
+        url: 'http://222.255.0.229:8080/api/v1/oauth/token',
         data: qs.stringify(requestBody),
         headers: {
           'Authorization': `Basic ${token}`,
@@ -121,11 +107,10 @@ class UserStore {
           params: {
             page: pageIndex,
             size: pageSize,
-            status:true,
+            status: true,
           },
         }).then(response => {
           if (response) {
-            console.log(response.data)
             this.ListUsers = toJS(response.data)
           }
           resolve(response)
@@ -195,8 +180,8 @@ class UserStore {
             'Content-Type': 'application/json',
           },
           data: {
-            status: false
-          }
+            status: false,
+          },
         }).then(response => {
           if (response) {
             message.success('Xóa User thành công')

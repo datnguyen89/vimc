@@ -9,7 +9,7 @@ const config = {
   },
   test: {},
   development: {
-    apiUrl: process.env.VIMC_URL
+    apiUrl: process.env.VIMC_URL,
   },
   production: {
     apiUrl: process.env.VIMC_URL

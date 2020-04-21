@@ -32,7 +32,7 @@ export const Footer = styled.div`
 export const Rows = styled(Row)``
 
 export const Cols = styled(Col)`
-  padding: 16px 8px;
+  padding: 16px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
