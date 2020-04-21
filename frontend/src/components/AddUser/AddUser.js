@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Modal, Button, Form, Input, Row, Col } from 'antd'
+import { Modal, Button, Form, Input, Row, Col, Select } from 'antd'
 import { inject, observer } from 'mobx-react'
 import {
   Hidden,
@@ -11,6 +11,7 @@ import {
 const AddUser = props => {
   const [visible, setVisible] = useState(false)
   const { userStore, loadingAnimationStore } = props
+  const {Option} = Select
   const showModal = () => {
     setVisible(true)
   }
@@ -18,15 +19,16 @@ const AddUser = props => {
     setVisible(false)
   }
   const onFinish = values => {
-    loadingAnimationStore.showSpinner(true)
-    userStore.createUser(values)
-      .then((response) => {
-        if (response.status !== 200) return
-        setVisible(false)
-      })
-      .finally(() => {
-        loadingAnimationStore.showSpinner(false)
-      })
+    console.log(values)
+    // loadingAnimationStore.showSpinner(true)
+    // userStore.createUser(values)
+    //   .then((response) => {
+    //     if (response.status !== 200) return
+    //     setVisible(false)
+    //   })
+    //   .finally(() => {
+    //     loadingAnimationStore.showSpinner(false)
+    //   })
 
   }
 
@@ -60,6 +62,20 @@ const AddUser = props => {
                 <Input/>
               </Form.Item>
             </Hidden>
+            <Form.Item
+              label="Hệ thống"
+              name="commands"
+            >
+              <Select
+                mode="multiple"
+                style={{ width: '100%' }}
+                placeholder="Please select"
+                rules={[{ required: true, message: 'Hãy chọn hệ không được để trống!' }]}
+              >
+                <Option key={[1,1]}>1</Option>
+                <Option key={[2,2]}>2</Option>
+              </Select>
+            </Form.Item>
             <Form.Item
               label="Email"
               name="email"

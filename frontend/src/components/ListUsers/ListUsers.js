@@ -39,6 +39,7 @@ const ListUsers = (props) => {
   }
 
   function confirm(code) {
+
     userStore.deleteUser(code)
       .then((response) => {
         if (response.status !== 200) return
@@ -138,7 +139,7 @@ const ListUsers = (props) => {
         pagination={false}
         showHeader={header}
         dataSource={data}
-        scroll={{ x: 800 }}
+        scroll={{ x: 700 }}
       />
       <br/>
       {
