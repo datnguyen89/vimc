@@ -121,6 +121,7 @@ class UserStore {
           params: {
             page: pageIndex,
             size: pageSize,
+            status:true,
           },
         }).then(response => {
           if (response) {
@@ -187,12 +188,15 @@ class UserStore {
     if (this.token) {
       return new Promise((resolve, reject) => {
         axios({
-          method: 'delete',
+          method: 'patch',
           url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}`,
           headers: {
             'Authorization': `Bearer ${this.token}`,
             'Content-Type': 'application/json',
           },
+          data: {
+            status: false
+          }
         }).then(response => {
           if (response) {
             message.success('Xóa User thành công')
