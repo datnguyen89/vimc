@@ -1,7 +1,8 @@
-import React, { useEffect, Fragment, useState } from 'react'
+import React, { useEffect, Fragment, useState,useReducer } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Input, Col, Row, Space, Popconfirm } from 'antd'
 import { withRouter } from 'react-router-dom'
+import useForceUpdate from 'use-force-update';
 import {
   UserOutlined,
   QuestionCircleOutlined,
@@ -20,12 +21,13 @@ const ListAccounts = (props) => {
   const { accountStore } = props
 
   useEffect(() => {
+
     if (accountStore.userCode) {
       accountStore.getListAccounts()
     }
   }, [accountStore.userCode])
   const callback = () => {
-
+    accountStore.getListAccounts()
   }
   function confirm(id) {
     accountStore.deleteAccount(id)
@@ -53,17 +55,17 @@ const ListAccounts = (props) => {
       }
 
       {
-        accountStore.listAccounts && accountStore.listAccounts.data.length > 0 ?
+        accountStore.listAccounts && accountStore.listAccounts.length > 0 ?
           <UserAccountWrapper>
             <h1>Danh sách tài khoản</h1>
             {
-              accountStore.listAccounts.data.map(item =>
+              accountStore.listAccounts.map(item =>
                 <Row key={item.id} align={'middle'} gutter={[15, 15]}>
                   <Col span={5}> <b>{item.command.code}</b></Col>
-                  <Col span={8}><Input disabled={true} placeholder="" defaultValue={item.account_name} prefix={<UserOutlined/>}/></Col>
-                  <Col span={8}>
-                    <Input.Password disabled={true} placeholder="" defaultValue={item.password} prefix={<QuestionCircleOutlined/>}/>
-                  </Col>
+                  <Col span={16}><Input disabled={true} placeholder="" defaultValue={item.account_name} prefix={<UserOutlined/>}/></Col>
+                  {/*<Col span={8}>*/}
+                  {/*  <Input.Password disabled={true} placeholder="" defaultValue={item.password} prefix={<QuestionCircleOutlined/>}/>*/}
+                  {/*</Col>*/}
                   <Col span={3}>
                     <Space>
 

@@ -15,22 +15,21 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 const ListUsers = (props) => {
   const { header, paging, edit, userStore, accountStore, viewInfo, viewCommand } = props
   const pageSize = 10
-  const [pageIndex, setPageIndex] = useState(0)
 
   const iconStyle = {
     color: '#fc0000',
   }
 
   useEffect(() => {
-    userStore.getlistUsers(pageIndex, pageSize)
-  }, [pageIndex])
+    userStore.getlistUsers(userStore.pageIndex, pageSize)
+  }, [userStore.pageIndex])
+  useEffect(() => {
+    userStore.getlistUsers(userStore.pageIndex, pageSize)
+  }, [userStore.totalUser])
 
   let data = null
-  let total_page = 0
-
   if (userStore.ListUsers) {
     data = userStore.ListUsers.data
-    total_page = userStore.ListUsers.total_page
   }
 
   const callback = () => {
@@ -38,7 +37,7 @@ const ListUsers = (props) => {
   }
 
   const onChange = page => {
-    setPageIndex(page)
+    userStore.setPageIndex(page)
   }
 
   const viewAccounts = (code) => {
@@ -90,9 +89,9 @@ const ListUsers = (props) => {
         dataIndex: 'commands',
         key: 'commands',
         render: commands => (
-         commands.map((item,index)=>
-           <Tag key={index}>{item.name}</Tag>
-         )
+          commands.map((item, index) =>
+            <Tag key={index}>{item.name}</Tag>,
+          )
 
         ),
       } : {},
@@ -102,11 +101,13 @@ const ListUsers = (props) => {
         dataIndex: 'code',
         key: 'code',
         render: code => {
+          let dataUser = data.filter(item => item.code === code)
           return (
             <ActionRow>
               <Tooltip title={'Chỉnh sửa'}>
                 <span>
-                  <EditUser dataUser={toJS(data)} callback={callback} userCode={code}/>
+                  <EditUser dataUser={dataUser} callback={callback}
+                            userCode={code}/>
                 </span>
               </Tooltip>
               <Divider type="vertical"/>
@@ -151,10 +152,10 @@ const ListUsers = (props) => {
       {
         paging &&
         <Pagination
-          current={pageIndex}
+          current={userStore.pageIndex}
           hideOnSinglePage={true}
           onChange={onChange}
-          total={total_page}
+          total={userStore.totalUser}
         />
       }
     </Fragment>

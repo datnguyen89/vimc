@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Modal, Button, Form, Input } from 'antd'
+import { Modal, Button, Form, Input, Select, Row, Col } from 'antd'
 import {
   EditOutlined,
 } from '@ant-design/icons'
@@ -12,11 +12,12 @@ import {
 import { toJS } from 'mobx'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import validator from '../../validator'
 
 const EditUser = props => {
   const [visible, setVisible] = useState(false)
-  const { userStore, loadingAnimationStore, dataUser, userCode, history, callback } = props
-  let data = dataUser.filter(item => item.code === userCode)
+  const { userStore, loadingAnimationStore, dataUser, userCode, history, callback, companiesStore, commandStore } = props
+  const { Option } = Select
   const showModal = () => {
     setVisible(true)
 
@@ -25,11 +26,19 @@ const EditUser = props => {
     setVisible(false)
   }
   const onFinish = values => {
-    console.log(values)
-    const { company_code, code, name, phone } = values
-    let option = Object.assign({}, { company_code: company_code, name: name, phone: phone })
+    const commandList = values.commands.map(item => {
+      return {
+        code: item,
+      }
+    })
+    const submitValues = {
+      ...values,
+      commands: commandList,
+    }
+    console.log(submitValues)
+    const {code} = submitValues
     loadingAnimationStore.showSpinner(true)
-    userStore.editUser(code, option)
+    userStore.editUser(code, submitValues)
       .then((response) => {
         if (response.status !== 200) return
         setVisible(false)
@@ -41,6 +50,11 @@ const EditUser = props => {
 
   }
 
+  let initialCommands = []
+  dataUser[0].commands.map(item => {
+      return initialCommands.push(item.code)
+    },
+  )
   return (
     <EditUserWrap>
       {
@@ -61,20 +75,18 @@ const EditUser = props => {
             layout={'vertical'}
             name="basic"
             initialValues={{
-              company_code: 'CPN7451091748209',
+              company_code: dataUser[0].company.code,
               code: userCode,
-              name: data[0].name_lowercase,
-              phone: data[0].phone,
+              email:dataUser[0].email,
+              name: dataUser[0].name_lowercase,
+              phone: dataUser[0].phone,
+              commands: initialCommands,
+              username: dataUser[0].username,
+              password: dataUser[0].password
             }}
             onFinish={onFinish}
           >
             <Hidden>
-              <Form.Item
-                label="company_code"
-                name="company_code"
-              >
-                <Input/>
-              </Form.Item>
               <Form.Item
                 label="code"
                 name="code"
@@ -82,6 +94,57 @@ const EditUser = props => {
                 <Input/>
               </Form.Item>
             </Hidden>
+            <Form.Item
+              label="Hệ thống"
+              name="commands">
+              <Select
+                mode="multiple"
+                style={{ width: '100%' }}
+                placeholder="Chọn hệ thống"
+                rules={[
+                  { required: true, message: 'Hãy chọn hệ không được để trống!' },
+                ]}>
+                {
+                  commandStore.ListCommands.map(item => {
+                    return (
+                      <Option key={item.code} value={item.code}>
+                        {item.name}
+                      </Option>
+                    )
+                  })
+                }
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Công ty"
+              name="company_code">
+              <Select
+
+                style={{ width: '100%' }}
+                placeholder="Chọn hệ thống"
+                rules={[
+                  { required: true, message: 'Hãy chọn công ty!' },
+                ]}>
+                {
+                  companiesStore.listCompany.map(item => {
+                    return (
+                      <Option key={item.code} value={item.code}>
+                        {item.name}
+                      </Option>
+                    )
+                  })
+                }
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: 'Email không được để trống!' },
+                { validator: validator.validateEmail },
+              ]}>
+              <Input/>
+            </Form.Item>
             <Form.Item
               label="Họ tên"
               name="name"
@@ -96,10 +159,36 @@ const EditUser = props => {
             >
               <Input/>
             </Form.Item>
+            <Form.Item
+              label="Tên đăng nhập"
+              name="username"
+              rules={[
+                { required: true, message: 'Tên đăng nhập không được để trống!' },
+                { validator: validator.validateEmptyString },
+              ]}>
+              <Input/>
+            </Form.Item>
+            <Form.Item
+              label="Mật khẩu (Để trống nếu không thay đổi)"
+              name="password"
+              rules={[
+                { required: false, message: 'Mật khẩu không được để trống!' },
+              ]}>
+              <Input.Password />
+            </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" block>
-                {'Chỉnh sửa'}
-              </Button>
+              <Row type={'flex'} justify={'space-between'} gutter={10}>
+                <Col span={12}>
+                  <Button type="primary" htmlType="submit" block>
+                    {'Sửa'}
+                  </Button>
+                </Col>
+                <Col span={12}>
+                  <Button onClick={() => setVisible(false)} block>
+                    Huỷ
+                  </Button>
+                </Col>
+              </Row>
             </Form.Item>
           </Form>
         </FormWrapper>
@@ -116,4 +205,4 @@ EditUser.propTypes = {
   dataUser: PropTypes.array,
 }
 
-export default withRouter(inject('userStore', 'loadingAnimationStore')(observer(EditUser)))
+export default withRouter(inject('commandStore', 'userStore', 'loadingAnimationStore', 'companiesStore')(observer(EditUser)))

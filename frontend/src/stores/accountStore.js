@@ -28,7 +28,7 @@ class AccountStore {
           },
         }).then(response => {
           if (response) {
-            this.setListAccounts(toJS(response))
+            this.setListAccounts((response.data))
           }
           resolve(response)
         }).catch(error => {

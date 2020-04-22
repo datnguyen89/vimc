@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useReducer } from 'react'
 import MainLayout from '../../layouts/MainLayout'
 import ListUsers from '../../components/ListUsers'
 import ListAccounts from '../../components/ListAccount'
@@ -13,9 +13,10 @@ const UserAccount = props => {
 
   const { accountStore } = props
   const { userCode } = accountStore
-
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   useEffect(() => {
     console.log(userCode)
+    forceUpdate();
   }, [userCode])
 
   return (

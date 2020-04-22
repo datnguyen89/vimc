@@ -29,6 +29,7 @@
     "socket.io-client": "^2.3.0",
     "spacetime": "^6.4.1",
     "styled-components": "^5.0.1",
+    "use-force-update": "^1.0.7",
     "uuid": "^3.3.3"
   },
   "scripts": {

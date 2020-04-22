@@ -32,6 +32,12 @@ const AddUser = props => {
     commandStore.getListCommands()
       .finally(() => loadingAnimationStore.showSpinner(false))
   }, [])
+  useEffect(() => {
+    loadingAnimationStore.showSpinner(true)
+    companiesStore.getListCompany()
+      .finally(()=>loadingAnimationStore.showSpinner(false))
+  }, [])
+
 
   const onFinish = values => {
     const commandList = values.commands.map(item => {
@@ -43,16 +49,16 @@ const AddUser = props => {
       ...values,
       commands: commandList,
     }
-    console.log(submitValues)
-    // loadingAnimationStore.showSpinner(true)
-    // userStore.createUser(values)
-    //   .then((response) => {
-    //     if (response.status !== 200) return
-    //     setVisible(false)
-    //   })
-    //   .finally(() => {
-    //     loadingAnimationStore.showSpinner(false)
-    //   })
+    loadingAnimationStore.showSpinner(true)
+    userStore.createUser(submitValues)
+      .then((response) => {
+        if (response.status !== 200) return
+        setVisible(false)
+        userStore.setTotalUser(userStore.totalUser + 1)
+      })
+      .finally(() => {
+        loadingAnimationStore.showSpinner(false)
+      })
   }
 
   return (
@@ -75,13 +81,7 @@ const AddUser = props => {
             name="basic"
             initialValues={{ company_code: 'CPN7451091748209' }}
             onFinish={onFinish}>
-            <Hidden>
-              <Form.Item
-                label="company_code"
-                name="company_code">
-                <Input/>
-              </Form.Item>
-            </Hidden>
+
             <Form.Item
               label="Hệ thống"
               name="commands">
@@ -90,10 +90,31 @@ const AddUser = props => {
                 style={{ width: '100%' }}
                 placeholder="Chọn hệ thống"
                 rules={[
-                  { required: true, message: 'Hãy chọn hệ không được để trống!' },
+                  { required: true, message: 'Hãy chọn hệ thống!' },
                 ]}>
                 {
                   commandStore.ListCommands.map(item => {
+                    return (
+                      <Option key={item.code} value={item.code}>
+                        {item.name}
+                      </Option>
+                    )
+                  })
+                }
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Công ty"
+              name="company_code">
+              <Select
+
+                style={{ width: '100%' }}
+                placeholder="Chọn hệ thống"
+                rules={[
+                  { required: true, message: 'Hãy chọn công ty!' },
+                ]}>
+                {
+                  companiesStore.listCompany.map(item => {
                     return (
                       <Option key={item.code} value={item.code}>
                         {item.name}

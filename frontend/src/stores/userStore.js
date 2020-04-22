@@ -13,7 +13,6 @@ class UserStore {
   /** User info */
   @observable token = localStorage.getItem('jwt')
   @observable currentUser = null
-  @observable ListUsers = null
   @observable ListAccounts = null
 
   /** User action */
@@ -94,6 +93,19 @@ class UserStore {
       })
     }
   }
+  @observable pageIndex = 0
+  @action setPageIndex = (pageIndex) => {
+    this.pageIndex = pageIndex
+  }
+  @observable totalUser = 0
+  @action setTotalUser = (total) => {
+    this.totalUser = total
+  }
+
+  @observable ListUsers = null
+  @action setListUsers = (list) => {
+    this.ListUsers = list
+  }
   @action getlistUsers = (pageIndex, pageSize) => {
     if (this.token) {
       return new Promise((resolve, reject) => {
@@ -111,7 +123,9 @@ class UserStore {
           },
         }).then(response => {
           if (response) {
-            this.ListUsers = toJS(response.data)
+
+            this.setListUsers(response.data)
+            this.setTotalUser(response.data.total_page)
           }
           resolve(response)
         }).catch(error => {
@@ -123,7 +137,6 @@ class UserStore {
   }
   @action createUser = (option) => {
     if (this.token) {
-
       return new Promise((resolve, reject) => {
         axios({
           method: 'post',
@@ -140,7 +153,8 @@ class UserStore {
           }
           resolve(response)
         }).catch(error => {
-          console.log(error)
+          message.error(error.response.data.errorMessage.messages.vi || `Tạo mới user không thành công`)
+          console.log(error.response.data.errorMessage.messages.vi)
           reject(error)
         })
       })
