@@ -59,12 +59,18 @@ const ListUsers = (props) => {
   }
 
   const columns = [
+    edit ? {
+      title: 'Username'
+    } : {},
     {
       title: 'Họ tên',
       dataIndex: 'name_lowercase',
       key: 'name_lowercase',
       render: text => <span>{text}</span>,
     },
+    edit ? {
+      title: 'Trạng thái'
+    } : {},
     viewInfo ?
       {
         title: 'Công ty',
@@ -90,9 +96,9 @@ const ListUsers = (props) => {
         dataIndex: 'commands',
         key: 'commands',
         render: commands => (
-         commands.map((item,index)=>
-           <Tag key={index}>{item.name}</Tag>
-         )
+          commands.map((item, index) =>
+            <Tag key={index}>{item.name}</Tag>,
+          )
 
         ),
       } : {},
