@@ -8,23 +8,16 @@ import {
   Hidden,
   EditUserWrap,
   FormWrapper,
-} from './EditUserStyled'
+} from './ModalUpdateCommandsStyled'
 import { toJS } from 'mobx'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import validator from '../../validator'
 
 const EditUser = props => {
-  const [visible, setVisible] = useState(false)
-  const { userStore, loadingAnimationStore, userCode, callback,commandStore, companiesStore } = props
+  const { userStore, visible, userCode ,commandStore, onClose} = props
   const { Option } = Select
-  const showModal = () => {
-    setVisible(true)
 
-  }
-  const handleCancel = e => {
-    setVisible(false)
-  }
   const onFinish = values => {
     const commandList = values.commands.map(item => {
       return {
@@ -36,29 +29,27 @@ const EditUser = props => {
       commands: commandList,
     }
     console.log(submitValues)
-    const { code } = submitValues
-    loadingAnimationStore.showSpinner(true)
-    userStore.editUser(code, submitValues)
-      .then((response) => {
-        if (response.status !== 200) return
-        setVisible(false)
-        callback && callback()
-      })
-      .finally(() => {
-        loadingAnimationStore.showSpinner(false)
-      })
+    // const { code } = submitValues
+    // loadingAnimationStore.showSpinner(true)
+    // userStore.editUser(code, submitValues)
+    //   .then((response) => {
+    //     if (response.status !== 200) return
+    //     setVisible(false)
+    //     callback && callback()
+    //   })
+    //   .finally(() => {
+    //     loadingAnimationStore.showSpinner(false)
+    //   })
 
   }
   let initialCommands = []
-  const [formValue, setFrormValue] = useState()
-  const [dataUser, setDataUser] = useState(null)
+  const [formValue, setFormValue] = useState()
   useEffect(() => {
     userStore.getUserByCode(userCode)
       .then((response) => {
 
         if (response) {
           const { data } = response
-          setDataUser(data)
           const { commands } = data
           commands.map(item => {
               return initialCommands.push(item.code)
@@ -66,16 +57,10 @@ const EditUser = props => {
           )
 
           let retVal = Object.assign({}, {
-            company_code: data.company.code,
             code: userCode,
-            email: data.email,
-            name: data.name_lowercase,
-            phone: data.phone,
             commands: initialCommands,
-            username: data.username,
-            password: data.password,
           })
-          setFrormValue(retVal)
+          setFormValue(retVal)
         }
       })
   }, [userCode])
@@ -86,17 +71,12 @@ const EditUser = props => {
   return (
 
     <EditUserWrap>
-      {
 
-        <a onClick={showModal}>
-          <EditOutlined/>
-        </a>
-      }
 
       <Modal
         title={'Sửa thông tin User'}
         visible={visible}
-        onCancel={handleCancel}
+        onCancel={()=>{onClose(false)}}
         footer={null}
       >
         <FormWrapper>
@@ -115,7 +95,7 @@ const EditUser = props => {
                 style={{ width: '100%' }}
                 placeholder="Chọn hệ thống"
                 rules={[
-                  { required: true, message: 'Hãy chọn hệ không được để trống!' },
+                  { required: true, message: 'Hãy chọn hệ thống!' },
                 ]}>
                 {
                   commandStore.ListCommands.map(item => {
@@ -158,67 +138,7 @@ const EditUser = props => {
             {/*    }*/}
             {/*  </Select>*/}
             {/*</Form.Item>*/}
-            <Form.Item
-              label="Công ty"
-              name="company_code">
-              <Select
 
-                style={{ width: '100%' }}
-                placeholder="Chọn hệ thống"
-                rules={[
-                  { required: true, message: 'Hãy chọn công ty!' },
-                ]}>
-                {
-                  companiesStore.listCompany.map(item => {
-                    return (
-                      <Option key={item.code} value={item.code}>
-                        {item.name}
-                      </Option>
-                    )
-                  })
-                }
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: 'Email không được để trống!' },
-                { validator: validator.validateEmail },
-              ]}>
-              <Input/>
-            </Form.Item>
-            <Form.Item
-              label="Họ tên"
-              name="name"
-              rules={[{ required: true, message: 'Please input your username!' }]}
-            >
-              <Input/>
-            </Form.Item>
-            <Form.Item
-              label="Số điện thoại"
-              name="phone"
-              rules={[{ required: true, message: 'Please input your username!' }]}
-            >
-              <Input/>
-            </Form.Item>
-            <Form.Item
-              label="Tên đăng nhập"
-              name="username"
-              rules={[
-                { required: true, message: 'Tên đăng nhập không được để trống!' },
-                { validator: validator.validateEmptyString },
-              ]}>
-              <Input/>
-            </Form.Item>
-            <Form.Item
-              label="Mật khẩu (Để trống nếu không thay đổi)"
-              name="password"
-              rules={[
-                { required: false, message: 'Mật khẩu không được để trống!' },
-              ]}>
-              <Input.Password/>
-            </Form.Item>
             <Form.Item>
               <Row type={'flex'} justify={'space-between'} gutter={10}>
                 <Col span={12}>
@@ -227,7 +147,7 @@ const EditUser = props => {
                   </Button>
                 </Col>
                 <Col span={12}>
-                  <Button onClick={() => setVisible(false)} block>
+                  <Button onClick={() => onClose(false)} block>
                     Huỷ
                   </Button>
                 </Col>

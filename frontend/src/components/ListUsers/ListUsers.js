@@ -4,16 +4,17 @@ import { Pagination, Popconfirm, Divider, Tooltip, Tag } from 'antd'
 import {
   DeleteOutlined,
   FolderOpenOutlined,
+  QuestionCircleOutlined, ToolOutlined,
 } from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx'
 import EditUser from '../../components/EditUser'
 import accountStore from '../../stores/accountStore'
 import { ActionRow } from './ListUsersStyled'
-import { QuestionCircleOutlined } from '@ant-design/icons'
+import ModalUpdateCommands from '../../components/ModalUpdateCommands'
 
 const ListUsers = (props) => {
-  const { header, paging, edit, userStore, accountStore, viewInfo, viewCommand } = props
+  const { userStore, accountStore, pageName } = props
   const pageSize = 10
 
   const iconStyle = {
@@ -57,90 +58,124 @@ const ListUsers = (props) => {
     console.log(e)
   }
 
-  const columns = [
-    edit ? {
-      title: 'Username'
-    } : {},
+  //trigger modal update command
+  const [visible, setVisible] = useState(false)
+  const [currUserCode, setCurrUserCode] = useState(null)
+  const showModal = (code) => {
+    setCurrUserCode(code)
+    setVisible(true)
+
+  }
+  const handleCancel = e => {
+    setVisible(false)
+  }
+  const columnsAccount = [
+
     {
       title: 'Họ tên',
       dataIndex: 'name_lowercase',
       key: 'name_lowercase',
       render: text => <span>{text}</span>,
     },
-    edit ? {
-      title: 'Trạng thái'
-    } : {},
-    viewInfo ?
-      {
-        title: 'Công ty',
-        dataIndex: 'company',
-        key: 'company',
-        render: company => <span>{company.name}</span>,
-      } : {},
-    viewInfo ?
-      {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-      } : {},
-    viewInfo ?
-      {
-        title: 'Số điện thoại',
-        dataIndex: 'phone',
-        key: 'phone',
-      } : {},
-    viewCommand ?
-      {
-        title: 'Portal',
-        dataIndex: 'commands',
-        key: 'commands',
-        render: commands => (
-          commands.map((item, index) =>
-            <Tag key={index}>{item.name}</Tag>,
-          )
-
-        ),
-      } : {},
-    edit ?
-      {
-        title: 'Tác vụ',
-        dataIndex: 'code',
-        key: 'code',
-        render: code => {
-          let dataUser = data.filter(item => item.code === code)
-          return (
-            <ActionRow>
-              <Tooltip title={'Chỉnh sửa'}>
-                <span>
-                  <EditUser dataUser={dataUser} callback={callback}
-                            userCode={code}/>
-                </span>
-              </Tooltip>
-              <Divider type="vertical"/>
-              <Popconfirm
-                title="Bạn chắc chắn muốn xóa user này ?"
-                onConfirm={() => confirm(code)}
-                onCancel={cancel}
-                okType={'danger'}
-                okText="Xác nhận"
-                icon={<QuestionCircleOutlined style={{ color: 'red' }}/>}
-                cancelText="Hủy bỏ">
-                <Tooltip title={'Xoá'}>
-                  <DeleteOutlined style={iconStyle}/>
-                </Tooltip>
-              </Popconfirm>
-            </ActionRow>
-          )
-        },
-      } :
-      {
-        title: 'Tác vụ',
-        dataIndex: 'code',
-        key: 'code',
-        render: code => <FolderOpenOutlined onClick={() => viewAccounts(code)}/>,
+    {
+      title: 'Tác vụ',
+      dataIndex: 'code',
+      key: 'code',
+      render: code => {
+        return (
+          <ActionRow>
+            <Tooltip title={'Thông tin account'}>
+              <FolderOpenOutlined onClick={() => viewAccounts(code)}/>
+            </Tooltip>
+            <Divider type={'vertical'}/>
+            <Tooltip title={'Phân quyền truy cập'}>
+              <ToolOutlined onClick={() => showModal(code)}/>
+            </Tooltip>
+          </ActionRow>
+        )
       },
-  ]
+    },
+    {
+      title: 'Portal',
+      dataIndex: 'commands',
+      key: 'commands',
+      render: commands => (
+        commands.map((item, index) =>
+          <Tag key={index}>{item.name}</Tag>,
+        )
 
+      ),
+    },
+  ]
+  const columnsInfo = [
+    {
+      title: 'Username',
+      dataIndex: 'username',
+      key: 'username',
+      render: username => <span>{username}</span>,
+    },
+    {
+      title: 'Họ tên',
+      dataIndex: 'name_lowercase',
+      key: 'name_lowercase',
+      render: text => <span>{text}</span>,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: status => <span>{status ? 'Active' : 'Locked'}</span>,
+    },
+
+    {
+      title: 'Công ty',
+      dataIndex: 'company',
+      key: 'company',
+      render: company => <span>{company.name}</span>,
+    },
+
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+
+    {
+      title: 'Số điện thoại',
+      dataIndex: 'phone',
+      key: 'phone',
+    },
+
+    {
+      title: 'Tác vụ',
+      dataIndex: 'code',
+      key: 'code',
+      render: code => {
+        return (
+          <ActionRow>
+            <Tooltip title={'Chỉnh sửa'}>
+                <span>
+                  <EditUser callback={callback} userCode={code}/>
+                </span>
+            </Tooltip>
+            <Divider type="vertical"/>
+            <Popconfirm
+              title="Bạn chắc chắn muốn xóa user này ?"
+              onConfirm={() => confirm(code)}
+              onCancel={cancel}
+              okType={'danger'}
+              okText="Xác nhận"
+              icon={<QuestionCircleOutlined style={{ color: 'red' }}/>}
+              cancelText="Hủy bỏ">
+              <Tooltip title={'Xoá'}>
+                <DeleteOutlined style={iconStyle}/>
+              </Tooltip>
+            </Popconfirm>
+          </ActionRow>
+        )
+      },
+    },
+  ]
 
   return (
 
@@ -148,15 +183,15 @@ const ListUsers = (props) => {
 
       <Table
         rowKey={record => record.code}
-        columns={columns}
+        columns={pageName === 'Info' ? columnsInfo : columnsAccount}
         pagination={false}
-        showHeader={header}
+        showHeader={true}
         dataSource={data}
-        scroll={{ x: 700 }}
+        scroll={{ x: 800 }}
       />
       <br/>
       {
-        paging &&
+        pageName === 'Info' &&
         <Pagination
           current={userStore.pageIndex}
           hideOnSinglePage={true}
@@ -164,6 +199,7 @@ const ListUsers = (props) => {
           total={userStore.totalUser}
         />
       }
+      <ModalUpdateCommands onClose={handleCancel} visible={visible} userCode={currUserCode}/>
     </Fragment>
 
   )

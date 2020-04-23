@@ -12,7 +12,7 @@ const UserInfo = () => {
     <MainLayout>
       <AddUser/>
       <Divider/>
-      <ListUsers edit={true} header={true} viewInfo={true} viewCommand={false} paging={true}/>
+      <ListUsers pageName="Info"/>
     </MainLayout>
 
   )

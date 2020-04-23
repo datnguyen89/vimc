@@ -119,13 +119,36 @@ class UserStore {
           params: {
             page: pageIndex,
             size: pageSize,
-            status: true,
+            keyword:""
+          },
+        }).then(response => {
+          if (response) {
+            this.setListUsers(response.data)
+            this.setTotalUser(response.data.total_page)
+          }
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    }
+  }
+  @action getUserByCode = (code) => {
+    if (this.token) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}`,
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          params: {
           },
         }).then(response => {
           if (response) {
 
-            this.setListUsers(response.data)
-            this.setTotalUser(response.data.total_page)
           }
           resolve(response)
         }).catch(error => {
@@ -199,6 +222,31 @@ class UserStore {
         }).then(response => {
           if (response) {
             message.success('Xóa User thành công')
+          }
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    }
+  }
+  @action updateCommands = (code,commands) => {
+    if (this.token) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'patch',
+          url: `${process.env.REACT_APP_VIMC_BUSINESS}/api/v1/users/${code}/commands`,
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+          data: {
+            commands: commands,
+          },
+        }).then(response => {
+          if (response) {
+            message.success('Cập nhật chức năng thành công')
           }
           resolve(response)
         }).catch(error => {

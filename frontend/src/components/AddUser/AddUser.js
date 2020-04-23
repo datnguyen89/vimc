@@ -82,27 +82,27 @@ const AddUser = props => {
             initialValues={{ company_code: 'CPN7451091748209' }}
             onFinish={onFinish}>
 
-            <Form.Item
-              label="Hệ thống"
-              name="commands">
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="Chọn hệ thống"
-                rules={[
-                  { required: true, message: 'Hãy chọn hệ thống!' },
-                ]}>
-                {
-                  commandStore.ListCommands.map(item => {
-                    return (
-                      <Option key={item.code} value={item.code}>
-                        {item.name}
-                      </Option>
-                    )
-                  })
-                }
-              </Select>
-            </Form.Item>
+            {/*<Form.Item*/}
+            {/*  label="Hệ thống"*/}
+            {/*  name="commands">*/}
+            {/*  <Select*/}
+            {/*    mode="multiple"*/}
+            {/*    style={{ width: '100%' }}*/}
+            {/*    placeholder="Chọn hệ thống"*/}
+            {/*    rules={[*/}
+            {/*      { required: true, message: 'Hãy chọn hệ thống!' },*/}
+            {/*    ]}>*/}
+            {/*    {*/}
+            {/*      commandStore.ListCommands.map(item => {*/}
+            {/*        return (*/}
+            {/*          <Option key={item.code} value={item.code}>*/}
+            {/*            {item.name}*/}
+            {/*          </Option>*/}
+            {/*        )*/}
+            {/*      })*/}
+            {/*    }*/}
+            {/*  </Select>*/}
+            {/*</Form.Item>*/}
             <Form.Item
               label="Công ty"
               name="company_code">

@@ -15,7 +15,6 @@ const UserAccount = props => {
   const { userCode } = accountStore
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   useEffect(() => {
-    console.log(userCode)
     forceUpdate();
   }, [userCode])
 
@@ -25,12 +24,12 @@ const UserAccount = props => {
 
         <Row gutter={[15, 15]}>
           <Col span={userCode ? 14 : 24}>
-            <ListUsers edit={false} viewInfo={false} viewCommand={true} header={false} paging={false}/>
+            <ListUsers pageName="Account"/>
           </Col>
           {
             userCode
               ? (
-                <Col span={9}>
+                <Col span={8}>
                   <ListAccounts/>
                 </Col>
               ) : null
