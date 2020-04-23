@@ -58,12 +58,18 @@ const ListUsers = (props) => {
   }
 
   const columns = [
+    edit ? {
+      title: 'Username'
+    } : {},
     {
       title: 'Họ tên',
       dataIndex: 'name_lowercase',
       key: 'name_lowercase',
       render: text => <span>{text}</span>,
     },
+    edit ? {
+      title: 'Trạng thái'
+    } : {},
     viewInfo ?
       {
         title: 'Công ty',
